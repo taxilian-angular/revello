@@ -1,4 +1,4 @@
 revello
 =======
 
-Othello Game
+Othello Gametest
