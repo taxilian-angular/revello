@@ -12,8 +12,8 @@ var Board = function() {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 1, 2, 0, 0, 0,
     0, 0, 0, 2, 1, 0, 0, 0,
+    0, 0, 0, 1, 2, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0
@@ -53,7 +53,6 @@ var directions = [
  * Continues search until either endPlayer or 0 is found.
  *  if endPlayer is found return true;
  *  if end of board or 0 is found return false;
- * direction can be 'U','D','L','R','UL','UR','DL','DR'
  */
 Board.prototype.doSearch= function(startPos, dir, currentPlayer) {
     var ret = [];
@@ -81,6 +80,7 @@ Board.prototype.doSearch= function(startPos, dir, currentPlayer) {
 
 
 Board.prototype.playMove = function(pos,player) {
+    if(pos===null) { return; }
     var swaps = [];
     var self=this;
     _.each(directions, function(d) {
@@ -117,6 +117,65 @@ Board.prototype.getValidMoves = function(player) {
     return ret;
 };
 
+
+Board.prototype.getSeq = function(pos, delta, cnt) {
+    var ret = "";
+    var i;
+    var p={r:pos.r, c:pos.c};
+    for(i=0;i<cnt;i++) {
+        ret+=String(this.checkPos(p));
+        p.r += delta.r;
+        p.c += delta.c;
+    }
+    return ret;
+
+}
+
+
+// Returns 2x3 corner sequences
+Board.prototype.getCorners = function() {
+    var self=this;
+
+    return [
+        // TL corner
+        self.getSeq({r:0, c:0}, {r:0, c:1}, 3) + self.getSeq({r:1, c:0}, {r:0, c:1}, 3),
+        // TL inverted corner
+        self.getSeq({r:0, c:0}, {r:1, c:0}, 3) + self.getSeq({r:0, c:1}, {r:1, c:0}, 3),
+        // TR corner
+        self.getSeq({r:0, c:7}, {r:0, c:-1}, 3) + self.getSeq({r:1, c:7}, {r:0, c:-1}, 3),
+        // TR inverted corner
+        self.getSeq({r:0, c:7}, {r:1, c:0}, 3) + self.getSeq({r:0, c:6}, {r:1, c:0}, 3),
+        // BL corner
+        self.getSeq({r:7, c:0}, {r:0, c:1}, 3) + self.getSeq({r:6, c:0}, {r:0, c:1}, 3),
+        // BL inverted corner
+        self.getSeq({r:7, c:0}, {r:-1, c:0}, 3) + self.getSeq({r:7, c:1}, {r:-1, c:0}, 3),
+        // BR corner
+        self.getSeq({r:7, c:7}, {r:0, c:-1}, 3) + self.getSeq({r:6, c:7}, {r:0, c:-1}, 3),
+        // BR inverted corner
+        self.getSeq({r:7, c:7}, {r:-1, c:0}, 3) + self.getSeq({r:7, c:6}, {r:-1, c:0}, 3)
+    ];
+};
+
+// Return edge sequences
+Board.prototype.getEdges = function() {
+    var self=this;
+    return [
+        self.getSeq({r:0,c:0}, {r:0, c:1}, 8),
+        self.getSeq({r:0,c:0}, {r:1, c:0}, 8),
+
+        self.getSeq({r:0,c:7}, {r:0, c:-1}, 8),
+        self.getSeq({r:0,c:7}, {r:1, c:0}, 8),
+
+        self.getSeq({r:7,c:0}, {r:0, c:1}, 8),
+        self.getSeq({r:7,c:0}, {r:-1, c:0}, 8),
+
+        self.getSeq({r:7,c:7}, {r:0, c:-1}, 8),
+        self.getSeq({r:7,c:7}, {r:-1, c:0}, 8)
+        
+    ];
+
+};
+
 Board.prototype.print = function() {
     var self=this;
     for(var r=0; r<8; r++) {
@@ -147,6 +206,18 @@ Board.prototype.getScore = function() {
     });
     return {black: bcnt, white: wcnt};
 };
+
+Board.prototype.getPlayerScore = function(player) {
+    var cnt=0;
+    _.each(this.board, function(x) {
+        if(x==player) { cnt++; }
+    });
+    return cnt;
+};
+
+Board.prototype.getRemaining = function() {
+    return this.getPlayerScore(0);
+}
 
 // Print with possible moves
 Board.prototype.printWithMoves = function(player) {

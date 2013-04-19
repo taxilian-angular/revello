@@ -2,7 +2,7 @@ var _ = require('underscore');
 var mc = require('./mc');
 var positions = require('./positions');
 
-var maxIter = 3;
+var maxIter = 2;
 var sims = 10;
 
 function invertPlayer(p) { return (p===1)?2:1; }
