@@ -6,6 +6,7 @@
     "underscore": "~1.4.4",
     "Deferred": "~0.1.1",
     "express": "~3.2.0",
-    "less-middleware": ">= 0.1.7"
+    "less-middleware": ">= 0.1.7",
+    "amdefine": "0.0.4"
   }
 }

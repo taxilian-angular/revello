@@ -6,10 +6,14 @@
 var express         = require('express');
 var less_middleware = require("less-middleware");
 var Deferred        = require('Deferred');
+var engine = require('ejs-locals');
 var app = module.exports = express();
+
+var app_mode;
 
 app.configure('development', function() {
     app.use(express.logger({ format: ':method :url' }));
+    app.use(express["static"](__dirname + '/public'));
     app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     app.use(less_middleware({
         src: __dirname + '/public',
@@ -22,6 +26,7 @@ app.configure('development', function() {
 });
 
 app.configure(function() {
+    app.engine('ejs', engine);
     app.set('views', __dirname + '/templates');
     app.set('view engine', 'ejs');
     app.use(express.bodyParser());
@@ -34,6 +39,10 @@ app.configure(function() {
 process.on('uncaughtException', function (err) {
   console.log('Caught unhandled exception: ', err);
   console.log("Stack: ", err.stack);
+});
+
+app.get("/", function(req, res){
+    res.render('game', { });
 });
 
 require('rest_api/game')(app);
