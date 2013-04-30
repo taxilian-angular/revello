@@ -11,19 +11,30 @@ var app = module.exports = express();
 
 var app_mode;
 
+var templateVarMiddleware = function(varsFunc) {
+    return function(req, res, next) {
+        res.locals(varsFunc());
+        next();
+    };
+};
+
 app.configure('development', function() {
     app.use(express.logger({ format: ':method :url' }));
-    app.use(express["static"](__dirname + '/public'));
-    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     app.use(less_middleware({
         src: __dirname + '/public',
         debug: true,
         force: true,
         compress: false
     }));
+    app.use(express["static"](__dirname + '/public'));
+    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
     app.use(express.static(__dirname + '/public'));
     app_mode = "dev";
 });
+
+app.use(templateVarMiddleware(function() { return {
+    _: require("underscore")
+}; }));
 
 app.configure(function() {
     app.engine('ejs', engine);
@@ -45,8 +56,9 @@ app.get("/", function(req, res){
     res.render('game', { });
 });
 
-require('rest_api/game')(app);
+require('./rest_api/game')(app);
 app.listen(3000);
+console.log("Listening on port 3000");
 
 
 

@@ -1,0 +1,13 @@
+
+@import "bootstrap.less";
+
+@tileSize: 75px;
+
+div.board {
+    width: (@tileSize + 2px) * 8;
+}
+div.square {
+    width: @tileSize; height: @tileSize; background-color: green; border: 1px solid black; float: left;
+    &.black { background: url(../images/black.png) green; background-repeat: no-repeat; background-position-x: 1px; }
+    &.white { background: url(../images/white.png) green; background-repeat: no-repeat; background-position-x: 1px; }
+}

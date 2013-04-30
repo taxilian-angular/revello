@@ -31,7 +31,7 @@ var lastPass = false;
 
 function playRound() {
     round++;
-    
+
     if(currentPlayer==1) { currentPlayer=2; }
     else { currentPlayer=1; }
 
