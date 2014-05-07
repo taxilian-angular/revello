@@ -1,10 +1,13 @@
 div { box-sizing: border-box; }
-.board {
+.board, .header {
     margin: 0 auto;
     border: 1px solid black;
     width: 41em;
-    height: 41em;
     overflow: hidden;
+    text-align: center;
+}
+.board {
+    height: 41em;
 }
 .board .square {
     width: 12.5%;
@@ -17,23 +20,23 @@ div { box-sizing: border-box; }
 .board .square.offcolor {
     background-color: #66FF66;
 }
-.board .p1:before, .board .p2:before {
+.square.p1:before, .square.p2:before {
     border-radius: 50%; width: 80%; height: 80%; display: block; margin-top: 10%; margin-left: 10%; content: '';
 }
-.board .p1:before {
+.p1:before {
     background-image: -moz-radial-gradient(50% 50% 45deg, circle cover, black 0%, #999 100%, black 95%);
     background-image: -webkit-radial-gradient(50% 50%, circle cover, black, #999);
     background-image: radial-gradient(50% 50% 45deg, circle cover, black 0%, #999 100%, black 95%);
 }
-.board .p2:before {
+.p2:before {
     background-image: -moz-radial-gradient(50% 50% 45deg, circle cover, white 0%, #ccc 100%, white 95%);
     background-image: -webkit-radial-gradient(50% 50%, circle cover, white, #ccc);
     background-image: radial-gradient(50% 50% 45deg, circle cover, white 0%, #ccc 100%, white 95%);
 }
-.board.p1 {
+.square.p1 {
     color: black;
 }
-.board.p2 {
+.square.p2 {
     color: white;
 }
 .square.option { cursor: pointer; }
@@ -46,3 +49,18 @@ div { box-sizing: border-box; }
     font-size: 4em;
     text-align: center;
 }
+.header h1 {
+    text-align: center;
+    margin: 0;
+}
+.header .turn {
+    display: inline-block;
+    width: 25%;
+    padding-bottom: 1em;
+}
+.header .turn.active { background-color: #ccc; }
+.header .turn .square:before {
+    width: 2em; height: 2em; display: inline-block; margin: 0; position: relative; top: 0.75em;
+}
+
+.clearfix { clear: both; }
