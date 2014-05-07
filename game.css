@@ -33,11 +33,11 @@ div { box-sizing: border-box; }
     background-image: -webkit-radial-gradient(50% 50%, circle cover, white, #ccc);
     background-image: radial-gradient(50% 50% 45deg, circle cover, white 0%, #ccc 100%, white 95%);
 }
-.square.p1 {
-    color: black;
-}
-.square.p2 {
+.board.p2 .square {
     color: white;
+}
+.board.p1 .square {
+    color: black;
 }
 .square.option { cursor: pointer; }
 .board .square.option:before {
