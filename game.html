@@ -5,6 +5,7 @@
         <link rel="stylesheet" type="text/css" href="game.css">
         <!-- Firebase -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+        <script type='text/javascript' src='//cdn.firebase.com/js/simple-login/1.4.1/firebase-simple-login.js'></script>
         <script src="//cdn.firebase.com/js/client/1.0.11/firebase.js"></script>
         <!-- AngularJS -->
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
@@ -14,9 +15,13 @@
         <script type="text/javascript" src="app.js"></script>
     </head>
     <body ng-app="RevelloApp" ng-controller="revelloController">
+        <div class="login">
+            <div ng-if="logged_in === false"><a href="#" ng-click="doLogin($event)">Log in</a></div>
+            <div ng-if="logged_in !== false">You are logged in as {{ logged_in.displayName }} through {{ logged_in.provider }}. <a href="#" ng-click="doLogout($event)">Log out</a></div>
+        </div>
         <div class="header">
             <h1 class="clearfix">
-                Revello
+                Revello -- olleveR
             </h1>
             <span class="turn p1" ng-class="{active: player == 1}">
                 <span class="square p1">

@@ -1,7 +1,8 @@
-/*global angular,Firebase,_*/
+/*global angular,Firebase,_,FirebaseSimpleLogin*/
 angular.module('RevelloApp.controllers', []).
   controller('revelloController', ['$scope', 'boardService', function($scope, boardService) {
-    var ref = new Firebase("https://revello.firebaseio-demo.com/");
+    var dbRef = new Firebase("https://revello.firebaseio.com/");
+
     var gameBoard = new boardService.Board();
     var otherPlayer = function(player) {
         if(player==2) { return 1; }
@@ -10,6 +11,7 @@ angular.module('RevelloApp.controllers', []).
     $scope.data = { };
     $scope.offColorIdx = [];
     $scope.player = 1;
+    $scope.logged_in = false;
     $scope.won = false;
     for (var i = 0; i < 64; ++i) {
         var rowIdx = Math.floor(i / 8);
@@ -60,4 +62,25 @@ angular.module('RevelloApp.controllers', []).
         updateBoard();
     };
 
+    var auth = new FirebaseSimpleLogin(dbRef, function(error, user) {
+        if (error) {
+            // an error occurred while attempting login
+            console.log(error);
+        } else if (user) {
+            // user authenticated with Firebase
+            console.log('User ID: ' + user.uid + ', Provider: ' + user.provider);
+            $scope.logged_in = user;
+        } else {
+            $scope.logged_in = false;
+        }
+        $scope.$digest();
+    });
+    $scope.doLogin = function(evt) {
+        evt.preventDefault();
+        auth.login("facebook");
+    };
+    $scope.doLogout = function(evt) {
+        evt.preventDefault();
+        auth.logout();
+    };
   }]);
