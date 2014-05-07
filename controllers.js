@@ -83,4 +83,7 @@ angular.module('RevelloApp.controllers', []).
         evt.preventDefault();
         auth.logout();
     };
+  }])
+  .controller('listController', ['$scope', function($scope) {
+
   }]);
