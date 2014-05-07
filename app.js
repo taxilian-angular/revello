@@ -1,10 +1,9 @@
-var revelloApp = angular.module('RevelloApp', [
+/*global angular*/
+angular.module('RevelloApp', [
   'ngRoute',
   'RevelloApp.controllers',
   'RevelloApp.services'
-]);
-
-revelloApp.config(['$routeProvider', function($routeProvider) {
+]).config(['$routeProvider', function($routeProvider) {
   $routeProvider
   .when('/list', {
     templateUrl: 'list.html',
