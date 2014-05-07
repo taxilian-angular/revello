@@ -16,9 +16,10 @@
         <script type="text/javascript" src="app.js"></script>
     </head>
     <body ng-app="RevelloApp" ng-controller="revelloController">
-        <div class="board">
+        <div class="board" ng-class="{p1: player == 1, p2: player == 2}">
             <div class="square" ng-repeat="square in data.boardSquares track by $index"
-                ng-class="{offcolor: offColorIdx[$index], p1: square == 1, p2: square == 2, option: square == 'O'}">
+                ng-class="{offcolor: offColorIdx[$index], p1: square == 1, p2: square == 2, option: square == 'O'}"
+                ng-click="makeMove($index)">
             </div>
         </div>
     </body>
