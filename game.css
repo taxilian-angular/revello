@@ -24,14 +24,15 @@ div { box-sizing: border-box; }
     border-radius: 50%; width: 80%; height: 80%; display: block; margin-top: 10%; margin-left: 10%; content: '';
 }
 .p1:before {
-    background-image: -moz-radial-gradient(50% 50% 45deg, circle cover, black 0%, #999 100%, black 95%);
-    background-image: -webkit-radial-gradient(50% 50%, circle cover, black, #999);
-    background-image: radial-gradient(50% 50% 45deg, circle cover, black 0%, #999 100%, black 95%);
+    background-color: #666;
+    /*box-shadow: inset 1px 1px 1px 1px rgba(255,255,255,0.25);*/
+    /*box-shadow: inset -1px -1px 3px 0px rgba(255,255,255,0.5);*/
+    box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,0.25);
 }
 .p2:before {
-    background-image: -moz-radial-gradient(50% 50% 45deg, circle cover, white 0%, #ccc 100%, white 95%);
-    background-image: -webkit-radial-gradient(50% 50%, circle cover, white, #ccc);
-    background-image: radial-gradient(50% 50% 45deg, circle cover, white 0%, #ccc 100%, white 95%);
+    background-color: #eee;
+    box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,0.25);
+    /*box-shadow: inset -1px -1px 3px 0px rgba(255,255,255,0.5);*/
 }
 .board.p2 .square {
     color: white;
