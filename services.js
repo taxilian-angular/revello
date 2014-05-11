@@ -1,6 +1,20 @@
-/*global _,angular*/
+/*global _,angular,Firebase*/
 angular.module('RevelloApp.services', []).
-  service('boardService', function($http) {
+    value('firebaseRef', new Firebase('https://revello.firebaseio.com')).
+service('gameSyncService', ['firebaseRef', function(dbRef) {
+    var self=this;
+
+    var gamesRef = dbRef.child('games');
+
+    self.newGame = function() {
+        return gamesRef.push();
+    };
+    self.loadGame = function(game_id) {
+        return gamesRef.child(game_id);
+    };
+    self.getList = function() { return gamesRef; };
+}]).
+    service('boardService', function() {
     var otherPlayer = function(player) {
         if(player==2) { return 1; }
         return 2;
@@ -9,14 +23,14 @@ angular.module('RevelloApp.services', []).
     var Board = function() {
         var self=this;
         self.board = [
-        0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 2, 1, 0, 0, 0,
-        0, 0, 0, 1, 2, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 2, 1, 0, 0, 0,
+            0, 0, 0, 1, 2, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0
         ];
         self.width = 8;
         self.height = 8;
@@ -34,7 +48,7 @@ angular.module('RevelloApp.services', []).
         if (!str || str.length != 64) {
             throw new Error("Invalid board");
         }
-        var innerBoard = _.map(str.split(), function(tile) {
+        var innerBoard = _.map(str.split(""), function(tile) {
             return Number(tile);
         });
         var obj = new Board();
@@ -204,13 +218,13 @@ angular.module('RevelloApp.services', []).
                 switch(self.checkPos({r:r, c:c})) {
                     case 0:
                         s+="  ";
-                        break;
+                    break;
                     case 1:
                         s+="B ";
-                        break;
+                    break;
                     case 2:
                         s+="W ";
-                        break;
+                    break;
                 }
             }
             console.log(s);
@@ -273,4 +287,9 @@ angular.module('RevelloApp.services', []).
         }
     };
     this.Board = Board;
-  });
+    this.offColorIdx = [];
+    for (var i = 0; i < 64; ++i) {
+        var rowIdx = Math.floor(i / 8);
+        this.offColorIdx[i] = ((rowIdx % 2) + (i % 2)) % 2;
+    }
+});

@@ -5,23 +5,25 @@
     <span class="turn p1" ng-class="{active: player == 1}">
         <span class="square p1">
         </span>
-        Player 1: {{ p1Score }}
+        <span ng-bind="player1_name"></span>: {{ p1Score }}
     </span>
     <span class="turn p2" ng-class="{active: player == 2}">
         <span class="square p2">
         </span>
-        Player 2: {{ p2Score }}
+        <span ng-if="player2_name">{{ player2_name }}: {{ p2Score }}</span>
+        <button ng-click="join_game()" ng-if="!player2_name">Join game</button>
     </span>
 </div>
 <div class="board" ng-class="{p1: player == 1, p2: player == 2}">
-    <div class="square" ng-repeat="square in data.boardSquares track by $index"
-        ng-class="{offcolor: offColorIdx[$index], p1: square == 1, p2: square == 2, option: square == 'O'}"
+    <div class="square" ng-repeat="square in boardSquares track by $index"
+        ng-class="{offcolor: offColorIdx[$index], p1: square == 1, p2: square == 2, option: square == 'O', lastMove: $index == lastMoveIdx}"
         ng-click="makeMove($index)">
     </div>
 </div>
 <div class="header">
     <div ng-if="movesPossible > 0">Moves available: {{ movesPossible }}</div>
-    <div ng-if="!movesPossible && won === false">No moves. <button ng-click="makeMove(null)">You must pass</button></div>
+    <div ng-if="!proposedMove && !movesPossible && won === false">No moves. <button ng-click="makeMove(null)">You must pass</button></div>
     <div ng-if="won !== false">Game over! {{ won }}</div>
+    <div ng-if="proposedMove"><button ng-click="sendMove()">Accept Move</button><button ng-click="cancelMove()">Undo</button></div>
 </div>
 

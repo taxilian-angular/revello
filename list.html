@@ -1,1 +1,6 @@
-List goes here
+<a href="#" ng-click="startNewGame($event)" ng-if="logged_in !== false">Start new game</a>
+<ul class="gameList" ng-repeat="game in gameList">
+    <li>Game with {{ game.val.player1.name }}
+        <span ng-if="game.val.player2"> and {{ game.val.player2.name }}</span>
+        created on {{ game.val.created }} <a ng-href="#/game/{{ game.name }}">Play game</a></li>
+</ul>

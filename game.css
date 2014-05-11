@@ -16,31 +16,35 @@ div { box-sizing: border-box; }
     float: left;
     background-color: #BBFFBB;
     text-align: center;
+    position: relative;
 }
 .board .square.offcolor {
     background-color: #66FF66;
 }
 .square.p1:before, .square.p2:before {
-    border-radius: 50%; width: 80%; height: 80%; display: block; margin-top: 10%; margin-left: 10%; content: '';
+    border-radius: 50%; width: 80%; height: 80%; display: block; margin-top: 10%; margin-left: 10%; content: ''; position: absolute;
 }
 .p1:before {
-    background-image: -moz-radial-gradient(50% 50% 45deg, circle cover, black 0%, #999 100%, black 95%);
-    background-image: -webkit-radial-gradient(50% 50%, circle cover, black, #999);
-    background-image: radial-gradient(50% 50% 45deg, circle cover, black 0%, #999 100%, black 95%);
+    background-color: #666;
+    /*box-shadow: inset 1px 1px 1px 1px rgba(255,255,255,0.25);*/
+    /*box-shadow: inset -1px -1px 3px 0px rgba(255,255,255,0.5);*/
+    box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,0.25);
 }
 .p2:before {
-    background-image: -moz-radial-gradient(50% 50% 45deg, circle cover, white 0%, #ccc 100%, white 95%);
-    background-image: -webkit-radial-gradient(50% 50%, circle cover, white, #ccc);
-    background-image: radial-gradient(50% 50% 45deg, circle cover, white 0%, #ccc 100%, white 95%);
+    background-color: #eee;
+    box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,0.25);
+    /*box-shadow: inset -1px -1px 3px 0px rgba(255,255,255,0.5);*/
 }
-.board.p2 .square {
+.board.p2 .square, .board .square.p2 {
     color: white;
 }
-.board.p1 .square {
+.square.p2 { color: white !important; }
+.board.p1 .square, .board .square.p1 {
     color: black;
 }
+.square.p1 { color: black !important; }
 .square.option { cursor: pointer; }
-.board .square.option:before {
+.board .square.option:after, .board .square.lastMove:after {
     top: 0;
     bottom: 0;
     left: 0;
@@ -48,6 +52,7 @@ div { box-sizing: border-box; }
     content: "\d7"; /* use the hex value here... */
     font-size: 4em;
     text-align: center;
+    position: absolute;
 }
 .header h1 {
     text-align: center;

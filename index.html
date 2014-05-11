@@ -15,7 +15,7 @@
         <script type="text/javascript" src="services.js"></script>
         <script type="text/javascript" src="app.js"></script>
     </head>
-    <body ng-app="RevelloApp">
+    <body ng-app="RevelloApp" ng-controller="rootControllerThingy">
         <div class="login">
             <div ng-if="logged_in === false"><a href="#" ng-click="doLogin($event)">Log in</a></div>
             <div ng-if="logged_in !== false">You are logged in as {{ logged_in.displayName }} through {{ logged_in.provider }}. <a href="#" ng-click="doLogout($event)">Log out</a></div>
