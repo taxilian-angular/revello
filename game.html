@@ -1,18 +1,13 @@
 <div class="header">
     <h1 class="clearfix">
-        Revello -- olleveR
+        Othello
     </h1>
-    <span class="turn p1" ng-class="{active: player == 1}">
-        <span class="square p1">
-        </span>
-        <span ng-bind="player1_name"></span>: {{ p1Score }}
-    </span>
-    <span class="turn p2" ng-class="{active: player == 2}">
-        <span class="square p2">
-        </span>
-        <span ng-if="player2_name">{{ player2_name }}: {{ p2Score }}</span>
-        <button ng-click="join_game()" ng-if="!player2_name">Join game</button>
-    </span>
+    <div class="turn p1" ng-class="{active: player == 1}">
+        {{ p1Score }}
+    </div>
+    <div class="turn p2" ng-class="{active: player == 2}">
+        {{ p2Score }}
+    </div>
 </div>
 <div class="board" ng-class="{p1: player == 1, p2: player == 2}">
     <div class="square" ng-repeat="square in boardSquares track by $index"
@@ -20,10 +15,11 @@
         ng-click="makeMove($index)">
     </div>
 </div>
-<div class="header">
+<div class="footer">
     <div ng-if="movesPossible > 0">Moves available: {{ movesPossible }}</div>
     <div ng-if="!proposedMove && !movesPossible && won === false">No moves. <button ng-click="makeMove(null)">You must pass</button></div>
     <div ng-if="won !== false">Game over! {{ won }}</div>
-    <div ng-if="proposedMove"><button ng-click="sendMove()">Accept Move</button><button ng-click="cancelMove()">Undo</button></div>
+    <div ng-if="proposedMove"><button ng-click="sendMove()" ng-if="canMove">Accept Move</button><button ng-click="cancelMove()">Undo</button></div>
+    <button ng-click="join_game()" ng-if="!player2_name && player2_name !== ''">Join game</button>
 </div>
 
