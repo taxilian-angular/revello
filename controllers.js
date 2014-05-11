@@ -52,9 +52,6 @@ angular.module('RevelloApp.controllers', []).
         if ($scope.proposedMove !== null) {
             // ignore all moves while we have a proposed move
             return;
-        } else if (!isPlayer($scope.player)) {
-            // If we aren't the current player, ignore all moves
-            return;
         } else if (idx === null) {
             // Pass the turn
             $scope.proposedMove = "skip";
@@ -83,6 +80,9 @@ angular.module('RevelloApp.controllers', []).
     $scope.sendMove = function() {
         if (!$scope.proposedMove) {
             // shouldn't ever get here; sanity check
+            return;
+        } else if (!isPlayer($scope.player)) {
+            // If we aren't the current player, ignore all moves
             return;
         }
         if ($scope.proposedMove != "skip") {
@@ -118,9 +118,10 @@ angular.module('RevelloApp.controllers', []).
                 sqr[idx] = 'O';
             });
         }
-        if (move != 'skip') {
+        if (move && move != 'skip') {
             $scope.lastMoveIdx = move.r*8+move.c;
         }
+        $scope.canMove = isPlayer($scope.player);
         $scope.p1Score = 0;
         $scope.p2Score = 0;
         for (var i = 0; i < sqr.length; ++i) {
