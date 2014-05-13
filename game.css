@@ -40,6 +40,9 @@ div { box-sizing: border-box; }
     background-color: #ffd75a;
     border: 2px solid black;
 }
+.board .square.lastMove:before {
+    border: 2px solid white;
+}
 /* generated with http://www.patternify.com/ */
 .board.p2 .square.option:before {
     border: 2px solid #ffd75a !important;
